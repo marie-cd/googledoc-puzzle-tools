@@ -2,7 +2,8 @@
 Tools for easier group solving of Shinteki/Puzzle Hunt-type puzzles via Googledocs.
 
 # Useful existing functions 
-(REFS [Google's docs|https://support.google.com/docs/table/25273?hl=en]
+(REFS [Google's docs](https://support.google.com/docs/table/25273?hl=en))
+
 | What the Function Does | Syntax |
 | -----------------------|--------|
 | Pull the [right/left] most N characters of a cell, including spaces | =right(CELL,N) |
