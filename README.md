@@ -12,6 +12,9 @@ Tools for easier group solving of Shinteki/Puzzle Hunt-type puzzles via Googledo
 | Remove spaces | =REGEXREPLACE(CELL," ","") |
 | Convert numeral to letter | =char(CELL+64) |
 
+# Reference Materials
+[Guide to extending Sheets](https://developers.google.com/apps-script/guides/sheets)
+
 # TODO
 - Caesar shift
 - .puz parser?
