@@ -14,9 +14,10 @@ Tools for easier group solving of Shinteki/Puzzle Hunt-type puzzles via Googledo
 
 # Added functions
 
-Function File             | Function Name | Usage                       | Purpose
---------------------------| ------------- | --------------------------- | ---------------------------------------------------
-sheet_functions/caesar.js | CAESAR_SHIFT  | CAESAR_SHIFT(string, shift) | Shift every letter in a string by a certain amount
+Function File              | Function Name     | Usage                       | Purpose
+-------------------------- | ----------------- | --------------------------- | --------------------------------------------------
+sheet_functions/caesar.js  | CAESAR_SHIFT      | CAESAR_SHIFT(string, shift) | Shift every letter in a string by a certain amount
+sheet_functions/general.js | INDEX_IN_ALPHABET | INDEX_IN_ALPHABET(index)    | Return the nth letter in the alphabet from an index.
 
 # Using custom functions in Google Sheets
 
@@ -24,12 +25,12 @@ sheet_functions/caesar.js | CAESAR_SHIFT  | CAESAR_SHIFT(string, shift) | Shift 
 2.  Paste in code
 3.  Save
 4.  Use as normal
+5.  Note that you can divide your scripts into different files.
 
 # Reference Materials
 [Guide to extending Sheets](https://developers.google.com/apps-script/guides/sheets)
 
 # TODO
-- Caesar shift
 - .puz parser?
 - Dictionary scanning--can we call out to a network from Googledoc Javascript?
 - gridify (break out cells so each letter is in its own box)
