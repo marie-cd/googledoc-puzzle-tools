@@ -28,7 +28,8 @@ sheet_functions/general.js | INDEX_IN_ALPHABET | INDEX_IN_ALPHABET(index)    | R
 5.  Note that you can divide your scripts into different files.
 
 # Reference Materials
-[Guide to extending Sheets](https://developers.google.com/apps-script/guides/sheets)
+- [Guide to extending Sheets](https://developers.google.com/apps-script/guides/sheets)
+- [Validation tests (request access if you want it)](https://docs.google.com/spreadsheets/d/1WAYFVWmO9o5UXqDmf8i20E-936ubKsXBM-S3XOXdX8s/edit#gid=0)
 
 # TODO
 - .puz parser?
