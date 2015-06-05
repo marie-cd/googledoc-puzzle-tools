@@ -1,5 +1,3 @@
-/** Tests at https://docs.google.com/spreadsheets/d/1WAYFVWmO9o5UXqDmf8i20E-936ubKsXBM-S3XOXdX8s/edit#gid=0 */
-
 // min and max values for uppercase letters
 var ASCII_CAP_MIN = 65;
 var ASCII_CAP_MAX = 90;
@@ -23,9 +21,9 @@ function CAESAR_SHIFT(initialString, shiftAmount) {
   var chars = initialString.split("");
   var newChars = chars.map(function(currentValue, _index, _array) {
     var asciiValue = currentValue.charCodeAt(0);
-    if (asciiValue >= ASCII_CAP_MIN && asciiValue <= ASCII_CAP_MAX) {
+    if (_isInRange(asciiValue, ASCII_CAP_MIN, ASCII_CAP_MAX)) {
       return String.fromCharCode(_findModOffsetInRange(asciiValue, shiftAmount, ASCII_CAP_MIN, ASCII_CAP_MAX));
-    } else if (asciiValue >= ASCII_LOW_MIN && asciiValue <= ASCII_LOW_MAX) {
+    } else if (_isInRange(asciiValue, ASCII_LOW_MIN, ASCII_LOW_MAX)) {
       return String.fromCharCode(_findModOffsetInRange(asciiValue, shiftAmount, ASCII_LOW_MIN, ASCII_LOW_MAX));
     } else {
       return currentValue;
@@ -39,5 +37,14 @@ function CAESAR_SHIFT(initialString, shiftAmount) {
  * Internal function for shifting a value within a range 
  */
 function _findModOffsetInRange(value, shiftAmount, rangeMin, rangeMax) {
-  return (((value - rangeMin) + shiftAmount) % (rangeMax - rangeMin + 1)) + rangeMin
+  var rangeSize = rangeMax - rangeMin + 1; // to handle inclusivity
+  var normalizedShift = shiftAmount >= 0 ? shiftAmount : rangeSize + shiftAmount;
+  return (((value - rangeMin) + normalizedShift) % rangeSize) + rangeMin;
+}
+
+/** 
+ * Internal function to determine if a given number is within a range, inclusively.
+ */
+function _isInRange(value, min, max) {
+  return value >= min && value <= max;
 }
