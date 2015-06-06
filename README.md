@@ -19,6 +19,7 @@ Function File              | Function Name     | Usage                       | P
 sheet_functions/caesar.js  | CAESAR_SHIFT      | CAESAR_SHIFT(string, shift) | Shift every letter in a string by a certain amount
 sheet_functions/general.js | INDEX_IN_ALPHABET | INDEX_IN_ALPHABET(index)    | Return the nth letter in the alphabet from an index.
 sheet_functions/general.js | BINARY_TO_NUMBER  | BINARY_TO_NUMBER(string)    | Converts a binary string into a decimal number.
+sheet_functions/general.js | TERNARY_TO_NUMBER | TERNARY_TO_NUMBER(string)   | Converts a ternary string into a decimal number.
 
 # Using custom functions in Google Sheets
 

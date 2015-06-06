@@ -3,6 +3,7 @@
 var ASCII_MIN = 65;
 var ALPHABET_COUNT = 26;
 var BINARY_STRING_REGEX = /^[0|1]+$/;
+var TERNARY_STRING_REGEX = /^[0|1|2]+$/;
 
 /** 
  * Gives the alphabetic character conforming to the given alphabet index.
@@ -25,13 +26,30 @@ function INDEX_IN_ALPHABET(index) {
  * @return {Number} the decimal equivalent of the binary string
  */
 function BINARY_TO_NUMBER(binaryString) {
-  if (binaryString == null) {
+  return _stringToDecimal(binaryString, 2, BINARY_STRING_REGEX);
+}
+
+/** 
+ * Converts a ternary string into a decimal number.
+ *
+ * @param {String} ternary sequence to convert
+ * @return {Number} the decimal equivalent of the ternary string.
+ */
+function TERNARY_TO_NUMBER(ternaryString) {
+  return _stringToDecimal(ternaryString, 3, TERNARY_STRING_REGEX);
+}
+
+/** 
+ * Internal method for converting a string to decimal given a base and a regex to use for validation.
+ */
+function _stringToDecimal(string, radix, validatingRegex) {
+  if (string == null) {
     return null;
   }
   
-  if (!(BINARY_STRING_REGEX.test(binaryString))) {
+  if (!(validatingRegex.test(string))) {
     return null;
   }
   
-  return parseInt(binaryString, 2); 
+  return parseInt(string, radix); 
 }
