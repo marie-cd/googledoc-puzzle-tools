@@ -1,9 +1,10 @@
 // a suite of generally useful functions.
 
-var ASCII_MIN = 65;
-var ALPHABET_COUNT = 26;
-var BINARY_STRING_REGEX = /^[0|1]+$/;
-var TERNARY_STRING_REGEX = /^[0|1|2]+$/;
+ASCII_MIN = 65;
+ALPHABET_COUNT = 26;
+BINARY_STRING_REGEX = /^[0|1]+$/;
+TERNARY_STRING_REGEX = /^[0|1|2]+$/;
+UNKNOWN_INPUT = "??";
 
 /** 
  * Gives the alphabetic character conforming to the given alphabet index.
@@ -13,10 +14,12 @@ var TERNARY_STRING_REGEX = /^[0|1|2]+$/;
  * @return {String} the letter of the alphabet represented by that index. Blank if an invalid number.
  */
 function INDEX_IN_ALPHABET(index) {
-  if (index == null || index < 0 || index > ALPHABET_COUNT) {
-    return null;
-  }
-  return String.fromCharCode((ASCII_MIN - 1) + index); // - 1 because the alphabet is 1-indexed, but ASCII is 0-indexed
+  return _forEachWord( index, 
+                       function(word) { 
+                         var parsedInt = parseInt(word);
+                         return parsedInt < 1 || parsedInt > ALPHABET_COUNT ? UNKNOWN_INPUT :String.fromCharCode((ASCII_MIN - 1) + parsedInt); 
+                       }
+                     );
 }
 
 /**
@@ -26,7 +29,7 @@ function INDEX_IN_ALPHABET(index) {
  * @return {Number} the decimal equivalent of the binary string
  */
 function BINARY_TO_NUMBER(binaryString) {
-  return _stringToDecimal(binaryString, 2, BINARY_STRING_REGEX);
+  return _forEachWord(binaryString, function(word) { return _stringToDecimalString(word, 2, BINARY_STRING_REGEX); } );
 }
 
 /** 
@@ -36,20 +39,30 @@ function BINARY_TO_NUMBER(binaryString) {
  * @return {Number} the decimal equivalent of the ternary string.
  */
 function TERNARY_TO_NUMBER(ternaryString) {
-  return _stringToDecimal(ternaryString, 3, TERNARY_STRING_REGEX);
+  return _forEachWord(ternaryString, function(word) { return _stringToDecimalString(word, 3, TERNARY_STRING_REGEX); } );
 }
 
 /** 
  * Internal method for converting a string to decimal given a base and a regex to use for validation.
  */
-function _stringToDecimal(string, radix, validatingRegex) {
-  if (string == null) {
+function _stringToDecimalString(input, radix, validatingRegex) {
+  if (!(validatingRegex.test(input))) {
     return null;
   }
-  
-  if (!(validatingRegex.test(string))) {
+  return parseInt(input, radix).toString(); 
+}
+
+/**
+ * Calls the passed function once for each word (space-delimited) in the input.
+ *
+ * @param {String} the input to be parsed
+ * @param {Function} a callback function to be executed for each word in the input. The callback function will take a single String as its input.
+ * @return {String} the concatenated results of each call to callback for each word.
+ */
+function _forEachWord(input, callback) {
+  if (input == null || input == undefined) {
     return null;
   }
-  
-  return parseInt(string, radix); 
+  var words = input.toString().split(" ");
+  return words.map( function(word) { return callback(word); } ).join(" ");
 }
