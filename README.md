@@ -14,12 +14,14 @@ Tools for easier group solving of Shinteki/Puzzle Hunt-type puzzles via Googledo
 
 # Added functions
 
-Function File              | Function Name     | Usage                       | Purpose
--------------------------- | ----------------- | --------------------------- | --------------------------------------------------
-sheet_functions/caesar.js  | CAESAR_SHIFT      | CAESAR_SHIFT(string, shift) | Shift every letter in a string by a certain amount
-sheet_functions/general.js | INDEX_IN_ALPHABET | INDEX_IN_ALPHABET(index)    | Return the nth letter in the alphabet from an index.
-sheet_functions/general.js | BINARY_TO_NUMBER  | BINARY_TO_NUMBER(string)    | Converts a binary string into a decimal number.
-sheet_functions/general.js | TERNARY_TO_NUMBER | TERNARY_TO_NUMBER(string)   | Converts a ternary string into a decimal number.
+Function File              | Function Name     | Usage                             | Purpose
+-------------------------- | ----------------- | ---------------------------       | --------------------------------------------------
+sheet_functions/caesar.js  | CAESAR_SHIFT      | CAESAR_SHIFT(string, shift)       | Shift every letter in a string by a certain amount
+sheet_functions/general.js | INDEX_IN_ALPHABET | INDEX_IN_ALPHABET(index)          | Return the nth letter in the alphabet from an index.
+sheet_functions/general.js | BINARY_TO_NUMBER  | BINARY_TO_NUMBER(string)          | Converts a binary string into a decimal number.
+sheet_functions/general.js | TERNARY_TO_NUMBER | TERNARY_TO_NUMBER(string)         | Converts a ternary string into a decimal number.
+sheet_functions/general.js | FROM_MORSE        | FROM_MORSE(string, [dot], [dash]) | Converts a string of Morse to plaintext. Supports optional dot and dash characters.
+sheet_functions/general.js | TO_MORSE          | TO_MORSE(string)                  | Converts a plaintext string of space-delimited characters to Morse
 
 # Using custom functions in Google Sheets
 
