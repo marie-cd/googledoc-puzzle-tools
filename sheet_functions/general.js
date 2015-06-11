@@ -28,6 +28,7 @@ for (key in MORSE_TO_PLAIN) {
  *
  * @param {Number} the number to use as an index into the alphabet
  * @return {String} the letter of the alphabet represented by that index. Blank if an invalid number.
+ * @customfunction
  */
 function INDEX_IN_ALPHABET(index) {
   return _forEachWord( index, 
@@ -43,6 +44,7 @@ function INDEX_IN_ALPHABET(index) {
  *
  * @param {String} binary sequence to convert
  * @return {Number} the decimal equivalent of the binary string
+ * @customfunction
  */
 function BINARY_TO_NUMBER(binaryString) {
   return _forEachWord(binaryString, function(word) { return _stringToDecimalString(word, 2, BINARY_STRING_REGEX); } );
@@ -53,6 +55,7 @@ function BINARY_TO_NUMBER(binaryString) {
  *
  * @param {String} ternary sequence to convert
  * @return {Number} the decimal equivalent of the ternary string.
+ * @customfunction
  */
 function TERNARY_TO_NUMBER(ternaryString) {
   return _forEachWord(ternaryString, function(word) { return _stringToDecimalString(word, 3, TERNARY_STRING_REGEX); } );
@@ -64,6 +67,7 @@ function TERNARY_TO_NUMBER(ternaryString) {
  * @param {String} the input text convert
  * @param {String} the optional string to use for a dot
  * @param {String} the optional string to use for a dash
+ * @customfunction
  */
 function FROM_MORSE(input, optDotChar, optDashChar) {
   return _forEachWord(input, function(word) {
@@ -87,18 +91,13 @@ function FROM_MORSE(input, optDotChar, optDashChar) {
  * Given an input string, return the Morse code equivalent.
  * @param {String} input string to convert
  * @return {String} the input encoded to Morse
+ * @customfunction
  */
 function TO_MORSE(input) {
   return _forEachWord(input, function(word) {
     return word in PLAIN_TO_MORSE ? PLAIN_TO_MORSE[word] : UNKNOWN_INPUT;
   });
 }
-
-/**
- * Given a string, return the morse code equivalent.
- *
- 
- 
 
 /** 
  * Internal method for converting a string to decimal given a base and a regex to use for validation.
