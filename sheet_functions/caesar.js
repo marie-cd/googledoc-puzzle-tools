@@ -12,6 +12,7 @@ var ASCII_LOW_MAX = 122;
  * @param {String} the string to shift
  * @param {Number} the amount to shift by
  * @return the shifted string
+ * @customfunction
  */
 function CAESAR_SHIFT(initialString, shiftAmount) {
   if (initialString == null) {
