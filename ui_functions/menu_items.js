@@ -60,7 +60,10 @@ function _doSymmetrification(maxRow, maxColumn, callback) {
       var currentCell = cells.getCell(curRelativeRow, curRelativeColumn);
       
       var mirrorCell = callback(curRelativeRow, curRelativeColumn, cells);
-      mirrorCell.setBackgroundColor(currentCell.getBackgroundColor());
+      // this gives a substantial (4x in quick tests) speedup, since setting the background color triggers a refresh
+      if (currentCell.getBackgroundColor() != mirrorCell.getBackgroundColor()) {
+        mirrorCell.setBackgroundColor(currentCell.getBackgroundColor());
+      }
     }  
   }
 }
