@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+
+<div>
+<form name="solver" onSubmit="populateSolutions();return false;">
+    <input type="text" name="searchText" id="searchText" /><br />
+    Number of Solutions: <input type="text" id="numSolutions" value="10" /><br />
+    <input type="submit" value="Find Results" />
+</form>
+<br />
+<div id="results">
+</div>
+</div>
+
+<?!= include('web_query_js'); ?>

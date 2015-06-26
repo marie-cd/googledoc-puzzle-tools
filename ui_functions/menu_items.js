@@ -7,10 +7,12 @@ function onOpen() {
                   .addItem('Rotationally', 'doRotationalSymmetrification')
                   .addItem('Bilaterally', 'doBilateralSymmetrification')
                  )
+      .addSeparator()
+      .addItem('Wordsmith Anagram Solver', 'doOpenWordsmithAnagrammer')
       .addToUi();
-}  
+}
 
-/** 
+/**
  * Given a set of cells, ensure that cells are reflected at the 180-degree point.
  * In other words, a cell in the upper left will get the same color in the lower right.
  */
@@ -22,8 +24,8 @@ function doRotationalSymmetrification() {
                         // if we're in row 1 above in a 5-row grid, we want the mirror row to be 5 - (1 - 1) = 5
                         // if we're in row 2, we want the mirror row to be 5 - (2 - 1) = 4
                         // and if we're in row 3, we want the mirror row to be (5 - (3 - 1)) = 3
-                        // the same logic applies to the columns                        
-                        return selectedCells.getCell(selectedCells.getNumRows() - (seedRow - 1), 
+                        // the same logic applies to the columns
+                        return selectedCells.getCell(selectedCells.getNumRows() - (seedRow - 1),
                                                      selectedCells.getNumColumns() - (seedColumn - 1));
                       });
 }
@@ -35,33 +37,37 @@ function doBilateralSymmetrification() {
   var cells = _getActiveRange();
   _doSymmetrification(cells.getNumRows(), Math.ceil(cells.getNumColumns()/2),
                       function(seedRow, seedColumn, selectedCells) {
-                        return selectedCells.getCell(seedRow, 
+                        return selectedCells.getCell(seedRow,
                                                      selectedCells.getNumColumns() - (seedColumn - 1));
                       });
-  
+
 }
 
-/** 
+/**
  * Symmetrify the grid based on the passed-in parameters.
- * 
+ *
  * @param {Number} the max row to look at (relative to the range upper-left)
  * @param {Number} the max column to look at (relative to the range upper-left)
  * @param {Function} a callback function that takes row, column of a given cell, and selectedCells and returns the _mirroring_ cell to affect
  */
 function _doSymmetrification(maxRow, maxColumn, callback) {
   var cells = _getActiveRange();
-  
+
   var topRow = cells.getRow();
   var leftColumn = cells.getColumn();
-  
-  
+
+
   for (var curRelativeRow = 1; curRelativeRow <= maxRow; curRelativeRow++) {
     for (var curRelativeColumn = 1; curRelativeColumn <= maxColumn; curRelativeColumn++) {
       var currentCell = cells.getCell(curRelativeRow, curRelativeColumn);
-      
+
       var mirrorCell = callback(curRelativeRow, curRelativeColumn, cells);
-      mirrorCell.setBackgroundColor(currentCell.getBackgroundColor());
-    }  
+      // this gives a substantial (4x in quick tests) speedup, since setting the background color triggers a refresh
+      if (currentCell.getBackgroundColor() != mirrorCell.getBackgroundColor()) {
+        mirrorCell.setBackgroundColor(currentCell.getBackgroundColor());
+      }
+
+    }
   }
 }
 
@@ -77,22 +83,39 @@ function squareCells() {
 
   var dialogResult = _getCellSizeResultFromUser();
   if (_shouldContinueFromDialog(dialogResult)) {
-    
+
      var newCellSize = parseInt(dialogResult.getResponseText());
      // because we need to manipulate the columns within the global context
-     // of the sheet, we start at startingColumn and then proceed to 
+     // of the sheet, we start at startingColumn and then proceed to
      // startingColumn + the number of columns
      // so starting at 2 for 3 columns would give 2,3,4
      for (var col = startingColumn; col < startingColumn + cells.getNumColumns(); col++) {
         sheet.setColumnWidth(col, newCellSize);
      }
-  
+
      // see above comment about column counts
      for (var row = startingRow; row < startingRow + cells.getNumRows(); row++) {
        sheet.setRowHeight(row, newCellSize);
      }
   }
-  
+
+}
+
+/**
+ * Creates the sidebar necessary for querying wordsmith.org/anagram
+ */
+function doOpenWordsmithAnagrammer() {
+  var html = HtmlService.createTemplateFromFile('web_query_form')
+      .evaluate()
+      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
+      .setTitle('Wordsmith Anagrammer');
+  _getSpreadsheetUI().showSidebar(html);
+}
+
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename)
+      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
+      .getContent();
 }
 
 /**
@@ -113,8 +136,8 @@ function _didPressCancel(dialogResult) {
   var ui = _getSpreadsheetUI();
   return dialogResult.getSelectedButton() == ui.Button.CANCEL;
 }
-  
-/** 
+
+/**
  * Determines if the dialog text is empty.
  * @param {Object} a dialog result
  * @return true if the entered text is empty.
@@ -123,7 +146,7 @@ function _didPressCancel(dialogResult) {
     return dialogResult.getResponseText() == null || dialogResult.getResponseText() == "";
   }
 
-/** 
+/**
  * Determine if the dialog result suggests that the user should continue.
  * @param {Object} the dialog result object
  * @return true if the dialog result suggests something that should continue, false if not.
@@ -139,7 +162,7 @@ function _getSpreadsheetUI() {
   return SpreadsheetApp.getUi();
 }
 
-/** 
+/**
  * Return the active range of cells.
  * Refactored code.
  */

@@ -21,8 +21,42 @@ for (key in MORSE_TO_PLAIN) {
   PLAIN_TO_MORSE[MORSE_TO_PLAIN[key]] = key;
 }
 
+/**
+ * Uses wordsmith.org Anagram Solver to return an array of anagrams.
+ * Note that this relies on a
+ * @param {String} the text to anagram
+ * @param {Number} the maximum number of results.
+ * @return {Array} of results
+ *
+ * @customfunction
+ */
+function ANAGRAM(input, maxResults) {
+  return [fetchAnagramsFromWordsmith(input, maxResults)];
+}
 
-/** 
+/**
+ * Gets anagrams from wordsmith.org/anagram.
+ */
+function fetchAnagramsFromWordsmith(anagramText, maxResults) {
+  if (maxResults == undefined) {
+    maxResults = 10;
+  }
+  var result_re = /^(<\/b><br>)?[ A-Za-z]+<br>$/;
+  var response = UrlFetchApp.fetch("http://wordsmith.org/anagram/anagram.cgi?anagram="+anagramText+"&t="+maxResults);
+  var lines = response.getContentText().split("\n");
+  var results = [];
+  for (line in lines) {
+    var curLine = lines[line];
+    if (result_re.test(curLine)) {
+      curLine = curLine.replace(/<br>|<\/b>/g,"");
+      results.push(curLine.trim());
+    }
+  }
+  return results;
+}
+
+
+/**
  * Gives the alphabetic character conforming to the given alphabet index.
  * For instance, INDEX_IN_ALPHABET(9) will return I.
  *
@@ -31,10 +65,10 @@ for (key in MORSE_TO_PLAIN) {
  * @customfunction
  */
 function INDEX_IN_ALPHABET(index) {
-  return _forEachWord( index, 
-                       function(word) { 
+  return _forEachWord( index,
+                       function(word) {
                          var parsedInt = parseInt(word);
-                         return parsedInt < 1 || parsedInt > ALPHABET_COUNT ? UNKNOWN_INPUT :String.fromCharCode((ASCII_MIN - 1) + parsedInt); 
+                         return parsedInt < 1 || parsedInt > ALPHABET_COUNT ? UNKNOWN_INPUT :String.fromCharCode((ASCII_MIN - 1) + parsedInt);
                        }
                      );
 }
@@ -50,7 +84,7 @@ function BINARY_TO_NUMBER(binaryString) {
   return _forEachWord(binaryString, function(word) { return _stringToDecimalString(word, 2, BINARY_STRING_REGEX); } );
 }
 
-/** 
+/**
  * Converts a ternary string into a decimal number.
  *
  * @param {String} ternary sequence to convert
@@ -61,7 +95,7 @@ function TERNARY_TO_NUMBER(ternaryString) {
   return _forEachWord(ternaryString, function(word) { return _stringToDecimalString(word, 3, TERNARY_STRING_REGEX); } );
 }
 
-/** 
+/**
  * Given a string of morse code, convert it to plain text.
  *
  * @param {String} the input text convert
@@ -77,11 +111,11 @@ function FROM_MORSE(input, optDotChar, optDashChar) {
     if (optDotChar != undefined || optDotChar != null) {
       normalizedString = _gsub(normalizedString, optDotChar, '.');
     }
-    
+
     if (optDashChar != undefined || optDashChar != null) {
       normalizedString = _gsub(normalizedString, optDashChar, '-');
     }
-    
+
     return normalizedString in MORSE_TO_PLAIN ? MORSE_TO_PLAIN[normalizedString] : UNKNOWN_INPUT;
   }
   );
@@ -99,14 +133,14 @@ function TO_MORSE(input) {
   });
 }
 
-/** 
+/**
  * Internal method for converting a string to decimal given a base and a regex to use for validation.
  */
 function _stringToDecimalString(input, radix, validatingRegex) {
   if (!(validatingRegex.test(input))) {
     return null;
   }
-  return parseInt(input, radix).toString(); 
+  return parseInt(input, radix).toString();
 }
 
 /**
@@ -124,9 +158,9 @@ function _forEachWord(input, callback) {
   return words.map( function(word) { return callback(word); } ).join(" ");
 }
 
-/** 
+/**
  * Given a string, replace all instances of one string with another.
- * 
+ *
  * @param {String} unmodified string
  * @param {String} string to replace
  * @param {String} string to use as substitute
@@ -135,7 +169,7 @@ function _gsub(inputString, replaceString, substituteString) {
   if (inputString == null || replaceString == null || substituteString == null) {
     return inputString;
   }
-  
+
   return inputString.replace(new RegExp(_escapeRegExp(replaceString), 'g'), substituteString);
 }
 

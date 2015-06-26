@@ -1,0 +1,63 @@
+<script>
+
+/**
+ * Removes all the child elements of a given element.
+ */
+function clearElementChildren(element) {
+  for (childNode = element.firstChild; childNode != null; childNode = element.firstChild) {
+    element.removeChild(childNode);
+  }
+}
+
+/**
+ * Clears the results container and adds a single text node set to the message.
+ */
+function setResultsText(message) {
+  var resultsContainer = getResultsContainer();
+  clearElementChildren(getResultsContainer());
+  resultsContainer.appendChild(createTextNode(message));
+}
+
+/**
+ * Convenience method for returning the results container.
+ */
+function getResultsContainer() {
+  return document.getElementById("results");
+}
+
+/**
+ * Convenience method for creating a text node
+ */
+function createTextNode(text) {
+  return document.createTextNode(text);
+}
+
+function populateSolutions() {
+  var searchText = document.getElementById("searchText").value;
+  var maxResults = 10;
+  var maxResultsString = document.getElementById("numSolutions").value;
+
+  if (maxResultsString != "") {
+    maxResults = parseInt(maxResultsString);
+  }
+
+  var resultsContainer = getResultsContainer();
+
+  setResultsText("Loading ...");
+
+  google.script.run.withSuccessHandler(
+    function(results) {
+      clearElementChildren(resultsContainer);
+
+      if (results.length != 0) {
+        for (index in results) {
+           resultsContainer.appendChild(createTextNode(results[index]));
+           var brNode = document.createElement("br");
+           resultsContainer.appendChild(brNode);
+        }
+      } else {
+        setResultsText("No results");
+      }
+   }).fetchAnagramsFromWordsmith(searchText, maxResults);
+}
+</script>

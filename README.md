@@ -1,14 +1,14 @@
 # googledoc-puzzle-tools
 Tools for easier group solving of Shinteki/Puzzle Hunt-type puzzles via Googledocs.
 
-# Useful existing functions 
+# Useful existing functions
 (REFS [Google's docs](https://support.google.com/docs/table/25273?hl=en))
 
 | What the Function Does | Syntax |
 | -----------------------|--------|
 | Pull the [right/left] most N characters of a cell, including spaces | =right(CELL,N) / =left(CELL,N) |
 | Pull the middle N characters of a cell, starting with letter M | =mid(CELL, M, N) |
-| Find the first instance of string STR in cell | = FIND("STR",CELL) | 
+| Find the first instance of string STR in cell | = FIND("STR",CELL) |
 | Remove spaces | =REGEXREPLACE(CELL," ","") |
 | Convert numeral to letter | =char(CELL+64) |
 
@@ -22,6 +22,7 @@ sheet_functions/general.js | BINARY_TO_NUMBER  | BINARY_TO_NUMBER(string)       
 sheet_functions/general.js | TERNARY_TO_NUMBER | TERNARY_TO_NUMBER(string)         | Converts a ternary string into a decimal number.
 sheet_functions/general.js | FROM_MORSE        | FROM_MORSE(string, [dot], [dash]) | Converts a string of Morse to plaintext. Supports optional dot and dash characters.
 sheet_functions/general.js | TO_MORSE          | TO_MORSE(string)                  | Converts a plaintext string of space-delimited characters to Morse
+sheet_functions/general.js | ANAGRAM           | ANAGRAM(string, [results])        | Look up anagrams and return n results (default is 10)
 
 # Using custom functions in Google Sheets
 
