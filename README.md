@@ -12,7 +12,15 @@ Tools for easier group solving of Shinteki/Puzzle Hunt-type puzzles via Googledo
 | Remove spaces | =REGEXREPLACE(CELL," ","") |
 | Convert numeral to letter | =char(CELL+64) |
 
-# Added functions
+# Features
+
+## Custom Menu Items
+*  *Square Cells* - Make all selected cells squares of some size. 20 is good for letters.
+*  *Symmetrify Grid* - Make the selected cells have symmetry with regard to background color.
+    Rotational (standard crossword) and bilateral are both supported.
+*  *Wordsmith Anagram Solver* - Open a sidebar that will allow querying wordsmith.org/anagram
+
+## Added functions
 
 Function File              | Function Name     | Usage                             | Purpose
 -------------------------- | ----------------- | ---------------------------       | --------------------------------------------------
