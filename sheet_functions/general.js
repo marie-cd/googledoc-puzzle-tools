@@ -55,6 +55,22 @@ function fetchAnagramsFromWordsmith(anagramText, maxResults) {
   return results;
 }
 
+/**
+ * Given an input string, split each character into its own cell.
+ *
+ * @param {String} text to split up
+ * @return {Array} the individual characters of the input text.
+ * @customfunction
+ */
+function SPLIT_INTO_CELLS(input) {
+  if (input == null) {
+    return null;
+  }
+
+  var chars = input.toString().split("");
+  return [chars];
+}
+
 
 /**
  * Gives the alphabetic character conforming to the given alphabet index.
@@ -72,6 +88,28 @@ function INDEX_IN_ALPHABET(index) {
                        }
                      );
 }
+
+/**
+ * Gives the nth character from a string.
+ *
+ * In some ways, this is a shorthand for the MID(n,1) command, but
+ * this documents its purpose better and uses our per-word
+ * mechanism, so that INDEX_IN_STRING(string, "11 5") will return
+ * the 11th letter and the fifth one.
+ *
+ * @param {String} the string to index into
+ * @param {String} the 1-indexed index or indices to use for parsing the string.
+ * @customfunction
+ */
+function INDEX_IN_STRING(string, index) {
+  if (string == null) {return null;}
+
+  // note that substring is 0 based, while the user will be using human numbers
+  return _forEachWord(index, function(word) {
+      var curIndex = parseInt(word);
+      return string.substring(curIndex - 1, curIndex);});
+}
+
 
 /**
  * Converts a binary string into a decimal number.
