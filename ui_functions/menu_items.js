@@ -7,10 +7,33 @@ function onOpen() {
                   .addItem('Rotationally', 'doRotationalSymmetrification')
                   .addItem('Bilaterally', 'doBilateralSymmetrification')
                  )
+      .addItem('Quick-Add Named Tabs', 'doAddNamedTabs')
       .addSeparator()
       .addItem('Wordsmith Anagram Solver', 'doOpenWordsmithAnagrammer')
       .addToUi();
 }
+
+/**
+ * Ask the user for a set of comma-delimited names and make tabs with the names.
+ *
+ */
+ function doAddNamedTabs() {
+
+   var ui = _getSpreadsheetUI();
+   var result = ui.prompt("Adding Tabs","Enter a comma-delimited list of tab names.", ui.ButtonSet.OK_CANCEL);
+   if (_shouldContinueFromDialog(result)) {
+     var names = result.getResponseText();
+     if (names == null || names == "") {
+       return;
+     }
+
+     var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+     var tabNames = names.split(",");
+     tabNames.forEach( function(tabName) {spreadsheet.insertSheet(tabName.trim());} );
+   }
+}
+
+
 
 /**
  * Given a set of cells, ensure that cells are reflected at the 180-degree point.
@@ -102,6 +125,21 @@ function squareCells() {
 }
 
 /**
+ * Lays out a series of cells, starting with the active cell to use with a simple substitution key.
+ *
+ */
+function doSetupSimpleSubstitutionKey() {
+  var range = _getActiveRange();
+  var startRow = range.getRow();
+  var startColumn = range.getColumn();
+
+  for (var curRow = startRow; curRow <= startRow + 26; curRow++) {
+
+  }
+
+}
+
+/**
  * Creates the sidebar necessary for querying wordsmith.org/anagram
  */
 function doOpenWordsmithAnagrammer() {
@@ -116,6 +154,18 @@ function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename)
       .setSandboxMode(HtmlService.SandboxMode.IFRAME)
       .getContent();
+}
+
+/**
+ * Given a range of cells, rotate the square 90-degrees. Note that this will alert if you don't select a square.
+ */
+function doRotateGrid() {
+  var range = _getActiveRange();
+  if (range.getNumRows() != range.getNumColumns()) {
+    var ui = _getSpreadsheetUI();
+    ui.alert("Selected area must be square.");
+    return;
+  }
 }
 
 /**
