@@ -110,6 +110,21 @@ function INDEX_IN_STRING(string, index) {
       return string.substring(curIndex - 1, curIndex);});
 }
 
+/**
+ * Uppercases a string and removes the spaces.
+ *
+ * @param {String} string to answerize
+ * @return {String} input string in all caps with the whitespace removed
+ * @customfunction
+ */
+function ANSWERIZE(input) {
+  if (input == null) {
+    return null;
+  }
+
+  return _gsub(input.toUpperCase()," ","");
+}
+
 
 /**
  * Converts a binary string into a decimal number.
