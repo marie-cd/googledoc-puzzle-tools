@@ -204,12 +204,47 @@ function _stringToDecimalString(input, radix, validatingRegex) {
  * @return {String} the concatenated results of each call to callback for each word.
  */
 function _forEachWord(input, callback) {
-  if (input == null || input == undefined) {
-    return null;
-  }
+  if (_isNullOrUndefined(input)) {return null;}
+
   var words = input.toString().split(" ");
   return words.map( function(word) { return callback(word); } ).join(" ");
 }
+
+/**
+ * Calls the passed function once for each letter in the input string.
+ * @param {String} the input to process
+ * @param {Function} a callback function that will be executed for each character in the input. The callback function gets a single letter as an argument and should return a transformed value.
+ * @return {String} the transformed characters concatenated back into a string.
+ */
+function _forEachCharacter(input, callback) {
+  if (_isNullOrUndefined(input)) { return null;}
+
+  var chars = input.split("");
+  return chars.map(function(character) {return callback(character);}).join("");
+}
+
+/**
+ * Calls the passed function once for each character in each word. In other words, spaces between words will not be passed to the function.
+ * @param {String} the input string to process
+ * @param {Function} the callback function to use for each character in each word.
+ * @return {String} the transformed string.
+ */
+function _forEachCharacterInEachWord(input, callback) {
+  return _forEachWord(input, function(word) {
+    return _forEachCharacter(word, function(character) { return callback(character);} );
+  });
+}
+
+
+/**
+ * Checks whether the value is null or undefined
+ * @param {Object} a value to check
+ * @return {Boolean} true if the object is null or undefined, false if not.
+ */
+function _isNullOrUndefined(value) {
+  return value == null || value == undefined;
+}
+
 
 /**
  * Given a string, replace all instances of one string with another.

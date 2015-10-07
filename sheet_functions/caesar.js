@@ -18,9 +18,8 @@ function CAESAR_SHIFT(initialString, shiftAmount) {
   if (initialString == null) {
     return null;
   }
-  
-  var chars = initialString.split("");
-  var newChars = chars.map(function(currentValue, _index, _array) {
+
+  return _forEachCharacterInEachWord(initialString, function(currentValue) {
     var asciiValue = currentValue.charCodeAt(0);
     if (_isInRange(asciiValue, ASCII_CAP_MIN, ASCII_CAP_MAX)) {
       return String.fromCharCode(_findModOffsetInRange(asciiValue, shiftAmount, ASCII_CAP_MIN, ASCII_CAP_MAX));
@@ -30,12 +29,10 @@ function CAESAR_SHIFT(initialString, shiftAmount) {
       return currentValue;
     }
   });
-
-  return newChars.join("");  
 }
 
 /**
- * Internal function for shifting a value within a range 
+ * Internal function for shifting a value within a range
  */
 function _findModOffsetInRange(value, shiftAmount, rangeMin, rangeMax) {
   var rangeSize = rangeMax - rangeMin + 1; // to handle inclusivity
@@ -43,7 +40,7 @@ function _findModOffsetInRange(value, shiftAmount, rangeMin, rangeMax) {
   return (((value - rangeMin) + normalizedShift) % rangeSize) + rangeMin;
 }
 
-/** 
+/**
  * Internal function to determine if a given number is within a range, inclusively.
  */
 function _isInRange(value, min, max) {
