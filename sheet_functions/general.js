@@ -59,18 +59,18 @@ function fetchAnagramsFromWordsmith(anagramText, maxResults) {
  * Given an input string, split each character into its own cell.
  *
  * @param {String} text to split up
+ * @param {String} character to split on (optional, defaults to empty space)
  * @return {Array} the individual characters of the input text.
  * @customfunction
  */
-function SPLIT_INTO_CELLS(input) {
+function SPLIT_INTO_CELLS(input, delimiter) {
   if (input == null) {
     return null;
   }
 
-  var chars = input.toString().split("");
+  var chars = input.toString().split(delimiter == undefined || delimiter == null ? "" : delimiter);
   return [chars];
 }
-
 
 /**
  * Gives the alphabetic character conforming to the given alphabet index.
