@@ -4,7 +4,7 @@ ASCII_MIN = 65;
 ALPHABET_COUNT = 26;
 BINARY_STRING_REGEX = /^[0|1]+$/;
 TERNARY_STRING_REGEX = /^[0|1|2]+$/;
-UNKNOWN_INPUT = "??";
+UNKNOWN_INPUT = "?";
 
 NUTRIMATIC_SEARCH = "nutrimatic";
 WORDSMITH_SEARCH = "wordsmith";
@@ -85,7 +85,7 @@ function NUTRIMATIC(input, maxResults) {
 
 
 /**
- * Gets anagrams from wordsmith.org/anagram.
+ * Gets results from nutrimatic.org.
  */
 function fetchResultsFromNutrimatic(queryText, maxResults) {
   if (maxResults == undefined) {
@@ -120,7 +120,6 @@ function SPLIT_INTO_CELLS(input, delimiter) {
   if (input == null) {
     return null;
   }
-
   var chars = input.toString().split(delimiter == undefined || delimiter == null ? "" : delimiter);
   return [chars];
 }
@@ -157,8 +156,9 @@ function INDEX_IN_ALPHABET(index) {
  * @customfunction
  */
 function INDEX_IN_STRING(string, index) {
-  if (string == null) {return null;}
-
+  if (string == null) {
+    return null;
+  }
   // note that substring is 0 based, while the user will be using human numbers
   return _forEachWord(index, function(word) {
       var curIndex = parseInt(word);
@@ -221,11 +221,11 @@ function FROM_MORSE(input, dotChar, dashChar) {
     var normalizedString = new String(word);
 
     // convert word to dots and dashes
-    if (dotChar != undefined || dotChar != null) {
+    if (!_isNullOrUndefined(dotChar)) {
       normalizedString = _gsub(normalizedString, dotChar, '.');
     }
 
-    if (dashChar != undefined || dashChar != null) {
+    if (!_isNullOrUndefined(dashChar)) {
       normalizedString = _gsub(normalizedString, dashChar, '-');
     }
     return normalizedString in MORSE_TO_PLAIN ? MORSE_TO_PLAIN[normalizedString] : UNKNOWN_INPUT;

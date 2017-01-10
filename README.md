@@ -6,11 +6,11 @@ Tools for easier group solving of Shinteki/Puzzle Hunt-type puzzles via Googledo
 
 | What the Function Does | Syntax |
 | -----------------------|--------|
-| Pull the [right/left] most N characters of a cell, including spaces | =right(CELL,N) / =left(CELL,N) |
-| Pull the middle N characters of a cell, starting with letter M | =mid(CELL, M, N) |
-| Find the first instance of string STR in cell | = FIND("STR",CELL) |
+| Pull the [right/left] most N characters of a cell, including spaces | =RIGHT(CELL,N) / =LEFT(CELL,N) |
+| Pull the middle N characters of a cell, starting with letter M | =MID(CELL, M, N) |
+| Find the first instance of string STR in cell | =FIND("STR",CELL) |
 | Remove spaces | =REGEXREPLACE(CELL," ","") |
-| Convert numeral to letter | =char(CELL+64) |
+| Convert numeral to letter | =CHAR(CELL+64) |
 
 # Features
 
@@ -30,7 +30,7 @@ sheet_functions/general.js | INDEX_IN_ALPHABET | INDEX_IN_ALPHABET(index)       
 sheet_functions/general.js | BINARY_TO_NUMBER  | BINARY_TO_NUMBER(string)          | Converts a binary string into a decimal number.
 sheet_functions/general.js | TERNARY_TO_NUMBER | TERNARY_TO_NUMBER(string)         | Converts a ternary string into a decimal number.
 sheet_functions/general.js | FROM_MORSE        | FROM_MORSE(string, [dot], [dash]) | Converts a string of Morse to plaintext. Supports optional dot and dash characters.
-sheet_functions/general.js | TO_MORSE          | TO_MORSE(string)                  | Converts a plaintext string to Morse
+sheet_functions/general.js | TO_MORSE          | TO_MORSE(string, [delimiter])     | Converts a plaintext string to Morse.  Separates characters in output with optional delimiter.
 sheet_functions/general.js | INDEX_IN_STRING   | INDEX_IN_STRING(string, index)    | Index into a string (shorthand for MID(string, index, 1))
 sheet_functions/general.js | SPLIT_INTO_CELLS  | SPLIT_INTO_CELLS(string)          | Put each character of the input into its own cell to the right.
 sheet_functions/general.js | ANSWERIZE         | ANSWERIZE(string, [spacesOnly])   | Strip non-alpha characters and uppercase the input.  Optionally strip spaces only.
