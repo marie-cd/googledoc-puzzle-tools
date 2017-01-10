@@ -19,6 +19,7 @@ Tools for easier group solving of Shinteki/Puzzle Hunt-type puzzles via Googledo
 *  *Symmetrify Grid* - Make the selected cells have symmetry with regard to background color.
     Rotational (standard crossword) and bilateral are both supported.
 *  *Wordsmith Anagram Solver* - Open a sidebar that will allow querying wordsmith.org/anagram
+*  *Nutrimatic Solver* - Open a sidebar that will allow querying nutrimatic.org
 
 ## Added functions
 
