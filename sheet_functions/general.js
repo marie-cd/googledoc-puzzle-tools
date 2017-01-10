@@ -117,7 +117,7 @@ function INDEX_IN_STRING(string, index) {
  * @return {String} input string in all caps with the whitespace removed
  * @customfunction
  */
-function ANSWERIZE(input) {
+function ANSWERIZE_SPACES_ONLY(input) {
   if (input == null) {
     return null;
   }
@@ -125,6 +125,19 @@ function ANSWERIZE(input) {
   return _gsub(input.toUpperCase()," ","");
 }
 
+/**
+ * Uppercases a string and removes anything non-alphanumeric (except underscores).
+ *
+ * @param {String} string to answerize
+ * @return {String} input string in all caps with the whitespace removed
+ * @customfunction
+ */
+function ANSWERIZE(input) {
+  if (input == null) {
+    return null;
+  }
+  return input.toUpperCase().replace(/[^A-Z0-9_]/g,"");
+}
 
 /**
  * Converts a binary string into a decimal number.
