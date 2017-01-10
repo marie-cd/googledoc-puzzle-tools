@@ -30,7 +30,7 @@ sheet_functions/general.js | INDEX_IN_ALPHABET | INDEX_IN_ALPHABET(index)       
 sheet_functions/general.js | BINARY_TO_NUMBER  | BINARY_TO_NUMBER(string)          | Converts a binary string into a decimal number.
 sheet_functions/general.js | TERNARY_TO_NUMBER | TERNARY_TO_NUMBER(string)         | Converts a ternary string into a decimal number.
 sheet_functions/general.js | FROM_MORSE        | FROM_MORSE(string, [dot], [dash]) | Converts a string of Morse to plaintext. Supports optional dot and dash characters.
-sheet_functions/general.js | TO_MORSE          | TO_MORSE(string)                  | Converts a plaintext string of space-delimited characters to Morse
+sheet_functions/general.js | TO_MORSE          | TO_MORSE(string)                  | Converts a plaintext string to Morse
 sheet_functions/general.js | INDEX_IN_STRING   | INDEX_IN_STRING(string, index)    | Index into a string (shorthand for MID(string, index, 1))
 sheet_functions/general.js | SPLIT_INTO_CELLS  | SPLIT_INTO_CELLS(string)          | Put each character of the input into its own cell to the right.
 sheet_functions/general.js | ANSWERIZE         | ANSWERIZE(string, [spacesOnly])   | Strip non-alpha characters and uppercase the input.  Optionally strip spaces only.
