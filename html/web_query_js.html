@@ -32,11 +32,10 @@ function createTextNode(text) {
   return document.createTextNode(text);
 }
 
-function populateSolutions() {
+function populateSolutions(source) {
   var searchText = document.getElementById("searchText").value;
-  var maxResults = 10;
+  var maxResults = 30;
   var maxResultsString = document.getElementById("numSolutions").value;
-
   if (maxResultsString != "") {
     maxResults = parseInt(maxResultsString);
   }
@@ -58,6 +57,7 @@ function populateSolutions() {
       } else {
         setResultsText("No results");
       }
-   }).fetchAnagramsFromWordsmith(searchText, maxResults);
+   }).fetchResultsForSidePane(source, searchText, maxResults);
 }
 </script>
+

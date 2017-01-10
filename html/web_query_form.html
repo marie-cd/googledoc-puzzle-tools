@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
 <div>
-<form name="solver" onSubmit="populateSolutions();return false;">
+<form name="solver" onSubmit="populateSolutions('<?= source ?>');return false;">
     <input type="text" name="searchText" id="searchText" /><br />
-    Number of Solutions: <input type="text" id="numSolutions" value="10" /><br />
+    Number of Solutions: <input type="text" id="numSolutions" value="30" /><br />
     <input type="submit" value="Find Results" />
 </form>
 <br />
@@ -12,3 +12,4 @@
 </div>
 
 <?!= include('web_query_js'); ?>
+

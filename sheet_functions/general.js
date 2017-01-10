@@ -1,3 +1,5 @@
+// From: https://github.com/marie-cd/googledoc-puzzle-tools/blob/master/sheet_functions/general.js
+
 // a suite of generally useful functions.
 
 ASCII_MIN = 65;
@@ -5,6 +7,9 @@ ALPHABET_COUNT = 26;
 BINARY_STRING_REGEX = /^[0|1]+$/;
 TERNARY_STRING_REGEX = /^[0|1|2]+$/;
 UNKNOWN_INPUT = "??";
+
+NUTRIMATIC_SEARCH = "nutrimatic";
+WORDSMITH_SEARCH = "wordsmith";
 
 MORSE_TO_PLAIN = {
   ".-": "A",  "-...": "B",  "-.-.": "C",  "-..": "D",  ".": "E",  "..-.": "F",
@@ -21,6 +26,18 @@ for (key in MORSE_TO_PLAIN) {
   PLAIN_TO_MORSE[MORSE_TO_PLAIN[key]] = key;
 }
 
+
+/**
+ * Fetches results from the given source.
+ */
+function fetchResultsForSidePane(source, queryText, maxResults) {
+  if (source == NUTRIMATIC_SEARCH) {
+    return fetchResultsFromNutrimatic(queryText, maxResults);
+  }
+  return fetchResultsFromWordsmith(queryText, maxResults);
+}
+
+
 /**
  * Uses wordsmith.org Anagram Solver to return an array of anagrams.
  * Note that this relies on a
@@ -31,18 +48,19 @@ for (key in MORSE_TO_PLAIN) {
  * @customfunction
  */
 function ANAGRAM(input, maxResults) {
-  return [fetchAnagramsFromWordsmith(input, maxResults)];
+  return [fetchResultsFromWordsmith(input, maxResults)];
 }
+
 
 /**
  * Gets anagrams from wordsmith.org/anagram.
  */
-function fetchAnagramsFromWordsmith(anagramText, maxResults) {
+function fetchResultsFromWordsmith(queryText, maxResults) {
   if (maxResults == undefined) {
     maxResults = 10;
   }
   var result_re = /^(<\/b><br>)?[ A-Za-z]+<br>$/;
-  var response = UrlFetchApp.fetch("http://wordsmith.org/anagram/anagram.cgi?anagram="+anagramText+"&t="+maxResults);
+  var response = UrlFetchApp.fetch("http://wordsmith.org/anagram/anagram.cgi?anagram="+queryText+"&t="+maxResults);
   var lines = response.getContentText().split("\n");
   var results = [];
   for (line in lines) {
@@ -50,6 +68,44 @@ function fetchAnagramsFromWordsmith(anagramText, maxResults) {
     if (result_re.test(curLine)) {
       curLine = curLine.replace(/<br>|<\/b>/g,"");
       results.push(curLine.trim());
+    }
+  }
+  return results;
+}
+
+
+/**
+ * Uses nutrimatic.org to return an array of results.
+ * Note that this relies on a
+ * @param {String} the query text
+ * @param {Number} the maximum number of results.
+ * @return {Array} of results
+ *
+ * @customfunction
+ */
+function NUTRIMATIC(input, maxResults) {
+  return [fetchResultsFromNutrimatic(input, maxResults)];
+}
+
+
+/**
+ * Gets anagrams from wordsmith.org/anagram.
+ */
+function fetchResultsFromNutrimatic(queryText, maxResults) {
+  if (maxResults == undefined) {
+    maxResults = 10;
+  }
+  var result_re = />([ a-z]+)<\/span><br>$/;
+  var uriSafeQueryText = encodeURIComponent(queryText)
+  var response = UrlFetchApp.fetch("https://nutrimatic.org/?src=googledoc-puzzle-tools&q="+uriSafeQueryText);
+  var lines = response.getContentText().split("\n");
+  var results = [];
+  for (line in lines) {
+    var curLine = lines[line];
+    var match = result_re.exec(curLine);
+    if (match != null) {
+      results.push(match[1]);
+      if (results.length >= maxResults) break;
     }
   }
   return results;
