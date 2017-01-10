@@ -1,5 +1,3 @@
-// From: https://github.com/marie-cd/googledoc-puzzle-tools/blob/master/sheet_functions/general.js
-
 // a suite of generally useful functions.
 
 ASCII_MIN = 65;
@@ -41,9 +39,9 @@ function fetchResultsForSidePane(source, queryText, maxResults) {
 /**
  * Uses wordsmith.org Anagram Solver to return an array of anagrams.
  * Note that this relies on a
- * @param {String} the text to anagram
- * @param {Number} the maximum number of results.
- * @return {Array} of results
+ * @param {string} input the text to anagram
+ * @param {number=} maxResults the maximum number of results (optional, default=10)
+ * @return {string[]} of results
  *
  * @customfunction
  */
@@ -77,9 +75,9 @@ function fetchResultsFromWordsmith(queryText, maxResults) {
 /**
  * Uses nutrimatic.org to return an array of results.
  * Note that this relies on a
- * @param {String} the query text
- * @param {Number} the maximum number of results.
- * @return {Array} of results
+ * @param {string} input the query text
+ * @param {number=} maxResults the maximum number of results (optional, default=10)
+ * @return {string[]} of results
  *
  * @customfunction
  */
@@ -114,9 +112,10 @@ function fetchResultsFromNutrimatic(queryText, maxResults) {
 /**
  * Given an input string, split each character into its own cell.
  *
- * @param {String} text to split up
- * @param {String} character to split on (optional, defaults to empty space)
- * @return {Array} the individual characters of the input text.
+ * @param {string} input text to split up
+ * @param {string=} delimiter character to split on (default="")
+ * @return {string[]} the individual characters of the input text.
+ *
  * @customfunction
  */
 function SPLIT_INTO_CELLS(input, delimiter) {
@@ -132,8 +131,9 @@ function SPLIT_INTO_CELLS(input, delimiter) {
  * Gives the alphabetic character conforming to the given alphabet index.
  * For instance, INDEX_IN_ALPHABET(9) will return I.
  *
- * @param {Number} the number to use as an index into the alphabet
- * @return {String} the letter of the alphabet represented by that index. Blank if an invalid number.
+ * @param {number} index the number to use as an index into the alphabet
+ * @return {string} the letter of the alphabet represented by that index. Blank if an invalid number.
+ *
  * @customfunction
  */
 function INDEX_IN_ALPHABET(index) {
@@ -153,8 +153,9 @@ function INDEX_IN_ALPHABET(index) {
  * mechanism, so that INDEX_IN_STRING(string, "11 5") will return
  * the 11th letter and the fifth one.
  *
- * @param {String} the string to index into
- * @param {String} the 1-indexed index or indices to use for parsing the string.
+ * @param {string} string the string to index into
+ * @param {string} index the 1-indexed index or indices to use for parsing the string.
+ *
  * @customfunction
  */
 function INDEX_IN_STRING(string, index) {
@@ -167,30 +168,19 @@ function INDEX_IN_STRING(string, index) {
 }
 
 /**
- * Uppercases a string and removes the spaces.
+ * Uppercases a string and removes anything non-alphanumeric (except underscores).
  *
- * @param {String} string to answerize
- * @return {String} input string in all caps with the whitespace removed
+ * @param {string} input string to answerize
+ * @param {boolean=} spacesOnly only remove whitespace, keeping all other visible characters (optional, default=FALSE)
+ * @return {string} input answerized string in all caps
  * @customfunction
  */
-function ANSWERIZE_SPACES_ONLY(input) {
+function ANSWERIZE(input, spacesOnly) {
   if (input == null) {
     return null;
   }
-
-  return _gsub(input.toUpperCase()," ","");
-}
-
-/**
- * Uppercases a string and removes anything non-alphanumeric (except underscores).
- *
- * @param {String} string to answerize
- * @return {String} input string in all caps with the whitespace removed
- * @customfunction
- */
-function ANSWERIZE(input) {
-  if (input == null) {
-    return null;
+  if (spacesOnly) {
+    return input.toUpperCase().replace(/[\s]/g,"");
   }
   return input.toUpperCase().replace(/[^A-Z0-9_]/g,"");
 }
@@ -198,8 +188,8 @@ function ANSWERIZE(input) {
 /**
  * Converts a binary string into a decimal number.
  *
- * @param {String} binary sequence to convert
- * @return {Number} the decimal equivalent of the binary string
+ * @param {string} binaryString binary sequence to convert
+ * @return {number} the decimal equivalent of the binary string
  * @customfunction
  */
 function BINARY_TO_NUMBER(binaryString) {
@@ -209,8 +199,9 @@ function BINARY_TO_NUMBER(binaryString) {
 /**
  * Converts a ternary string into a decimal number.
  *
- * @param {String} ternary sequence to convert
- * @return {Number} the decimal equivalent of the ternary string.
+ * @param {string} ternaryString ternary sequence to convert
+ * @return {number} the decimal equivalent of the ternary string.
+ *
  * @customfunction
  */
 function TERNARY_TO_NUMBER(ternaryString) {
@@ -220,22 +211,24 @@ function TERNARY_TO_NUMBER(ternaryString) {
 /**
  * Given a string of morse code, convert it to plain text.
  *
- * @param {String} the input text convert
- * @param {String} the optional string to use for a dot
- * @param {String} the optional string to use for a dash
+ * @param {string} input the input text to convert
+ * @param {string=} dotChar the symbol to use for a dot (optional, default=".")
+ * @param {string=} dashChar the symbol to use for a dash (optional, default="-")
+ * @return {string} the decoded string
+ *
  * @customfunction
  */
-function FROM_MORSE(input, optDotChar, optDashChar) {
+function FROM_MORSE(input, dotChar, dashChar) {
   return _forEachWord(input, function(word) {
     var normalizedString = new String(word);
 
     // convert word to dots and dashes
-    if (optDotChar != undefined || optDotChar != null) {
-      normalizedString = _gsub(normalizedString, optDotChar, '.');
+    if (dotChar != undefined || dotChar != null) {
+      normalizedString = _gsub(normalizedString, dotChar, '.');
     }
 
-    if (optDashChar != undefined || optDashChar != null) {
-      normalizedString = _gsub(normalizedString, optDashChar, '-');
+    if (dashChar != undefined || dashChar != null) {
+      normalizedString = _gsub(normalizedString, dashChar, '-');
     }
 
     return normalizedString in MORSE_TO_PLAIN ? MORSE_TO_PLAIN[normalizedString] : UNKNOWN_INPUT;
@@ -245,8 +238,9 @@ function FROM_MORSE(input, optDotChar, optDashChar) {
 
 /**
  * Given an input string, return the Morse code equivalent.
- * @param {String} input string to convert
- * @return {String} the input encoded to Morse
+ * @param {string} input input string to convert
+ * @return {string} the input encoded to Morse
+ *
  * @customfunction
  */
 function TO_MORSE(input) {
@@ -268,9 +262,9 @@ function _stringToDecimalString(input, radix, validatingRegex) {
 /**
  * Calls the passed function once for each word (space-delimited) in the input.
  *
- * @param {String} the input to be parsed
- * @param {Function} a callback function to be executed for each word in the input. The callback function will take a single String as its input.
- * @return {String} the concatenated results of each call to callback for each word.
+ * @param {string} input the input to be parsed
+ * @param {function} callback a callback function to be executed for each word in the input. The callback function will take a single String as its input.
+ * @return {string} the concatenated results of each call to callback for each word.
  */
 function _forEachWord(input, callback) {
   if (_isNullOrUndefined(input)) {return null;}
@@ -281,9 +275,9 @@ function _forEachWord(input, callback) {
 
 /**
  * Calls the passed function once for each letter in the input string.
- * @param {String} the input to process
- * @param {Function} a callback function that will be executed for each character in the input. The callback function gets a single letter as an argument and should return a transformed value.
- * @return {String} the transformed characters concatenated back into a string.
+ * @param {string} input the input to process
+ * @param {function} callback a callback function that will be executed for each character in the input. The callback function gets a single letter as an argument and should return a transformed value.
+ * @return {string} the transformed characters concatenated back into a string.
  */
 function _forEachCharacter(input, callback) {
   if (_isNullOrUndefined(input)) { return null;}
@@ -294,9 +288,9 @@ function _forEachCharacter(input, callback) {
 
 /**
  * Calls the passed function once for each character in each word. In other words, spaces between words will not be passed to the function.
- * @param {String} the input string to process
- * @param {Function} the callback function to use for each character in each word.
- * @return {String} the transformed string.
+ * @param {string} input the input string to process
+ * @param {function} callback the callback function to use for each character in each word.
+ * @return {string} the transformed string.
  */
 function _forEachCharacterInEachWord(input, callback) {
   return _forEachWord(input, function(word) {
@@ -307,8 +301,8 @@ function _forEachCharacterInEachWord(input, callback) {
 
 /**
  * Checks whether the value is null or undefined
- * @param {Object} a value to check
- * @return {Boolean} true if the object is null or undefined, false if not.
+ * @param {Object} value a value to check
+ * @return {boolean} true if the object is null or undefined, false if not.
  */
 function _isNullOrUndefined(value) {
   return value == null || value == undefined;
@@ -318,9 +312,9 @@ function _isNullOrUndefined(value) {
 /**
  * Given a string, replace all instances of one string with another.
  *
- * @param {String} unmodified string
- * @param {String} string to replace
- * @param {String} string to use as substitute
+ * @param {string} inputString unmodified string
+ * @param {string} replaceString string to replace
+ * @param {string} substituteString string to use as substitute
  */
 function _gsub(inputString, replaceString, substituteString) {
   if (inputString == null || replaceString == null || substituteString == null) {
