@@ -230,7 +230,6 @@ function FROM_MORSE(input, dotChar, dashChar) {
     if (dashChar != undefined || dashChar != null) {
       normalizedString = _gsub(normalizedString, dashChar, '-');
     }
-
     return normalizedString in MORSE_TO_PLAIN ? MORSE_TO_PLAIN[normalizedString] : UNKNOWN_INPUT;
   }
   );
@@ -239,14 +238,17 @@ function FROM_MORSE(input, dotChar, dashChar) {
 /**
  * Given an input string, return the Morse code equivalent.
  * @param {string} input input string to convert
+ * @param {string=} delimiter the string used as a delimiter in the concatenated result string (optional, default=" ")
  * @return {string} the input encoded to Morse
  *
  * @customfunction
  */
-function TO_MORSE(input) {
-  return _forEachWord(input, function(word) {
-    return word in PLAIN_TO_MORSE ? PLAIN_TO_MORSE[word] : UNKNOWN_INPUT;
-  });
+function TO_MORSE(input, delimiter) {
+  if (_isNullOrUndefined(input)) { return null; }
+  if (_isNullOrUndefined(delimiter)) { delimiter = " "; }
+  return _forEachCharacterInEachWord(input.toUpperCase(), function(character) {
+    return character in PLAIN_TO_MORSE ? PLAIN_TO_MORSE[character] : UNKNOWN_INPUT;
+  }, delimiter);
 }
 
 /**
@@ -268,7 +270,6 @@ function _stringToDecimalString(input, radix, validatingRegex) {
  */
 function _forEachWord(input, callback) {
   if (_isNullOrUndefined(input)) {return null;}
-
   var words = input.toString().split(" ");
   return words.map( function(word) { return callback(word); } ).join(" ");
 }
@@ -277,24 +278,26 @@ function _forEachWord(input, callback) {
  * Calls the passed function once for each letter in the input string.
  * @param {string} input the input to process
  * @param {function} callback a callback function that will be executed for each character in the input. The callback function gets a single letter as an argument and should return a transformed value.
+ * @param {string=} delimiter the string used as a delimiter in the concatenated result string (optional, default="")
  * @return {string} the transformed characters concatenated back into a string.
  */
-function _forEachCharacter(input, callback) {
-  if (_isNullOrUndefined(input)) { return null;}
-
+function _forEachCharacter(input, callback, delimiter) {
+  if (_isNullOrUndefined(input)) { return null; }
+  if (_isNullOrUndefined(delimiter)) { delimiter = ""; }
   var chars = input.split("");
-  return chars.map(function(character) {return callback(character);}).join("");
+  return chars.map(function(character) {return callback(character);}).join(delimiter);
 }
 
 /**
  * Calls the passed function once for each character in each word. In other words, spaces between words will not be passed to the function.
  * @param {string} input the input string to process
  * @param {function} callback the callback function to use for each character in each word.
+ * @param {string=} delimiter the string used as a delimiter in the concatenated result string (optional, default="")
  * @return {string} the transformed string.
  */
-function _forEachCharacterInEachWord(input, callback) {
+function _forEachCharacterInEachWord(input, callback, delimiter) {
   return _forEachWord(input, function(word) {
-    return _forEachCharacter(word, function(character) { return callback(character);} );
+    return _forEachCharacter(word, function(character) { return callback(character);}, delimiter);
   });
 }
 
