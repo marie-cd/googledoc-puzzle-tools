@@ -36,7 +36,6 @@ sheet_functions/general.js | ANSWERIZE         | ANSWERIZE(string, [spacesOnly])
 sheet_functions/general.js | ANAGRAM           | ANAGRAM(string, [results])        | Look up anagrams and return n results (default is 10)
 sheet_functions/general.js | NUTRIMATIC        | NUTRIMATIC(string, [results])     | Look up nutrimatic results for a query and return n results (default is 10)
 
-
 # Using custom functions in Google Sheets
 
 1.  Tools -> Script Editor
