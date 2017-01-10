@@ -38,7 +38,6 @@ function fetchResultsForSidePane(source, queryText, maxResults) {
 
 /**
  * Uses wordsmith.org Anagram Solver to return an array of anagrams.
- * Note that this relies on a
  * @param {string} input the text to anagram
  * @param {number=} maxResults the maximum number of results (optional, default=10)
  * @return {string[]} of results
@@ -74,7 +73,6 @@ function fetchResultsFromWordsmith(queryText, maxResults) {
 
 /**
  * Uses nutrimatic.org to return an array of results.
- * Note that this relies on a
  * @param {string} input the query text
  * @param {number=} maxResults the maximum number of results (optional, default=10)
  * @return {string[]} of results
