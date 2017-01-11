@@ -10,6 +10,7 @@ function onOpen() {
       .addItem('Quick-Add Named Tabs', 'doAddNamedTabs')
       .addSeparator()
       .addItem('Wordsmith Anagram Solver', 'doOpenWordsmithAnagrammer')
+      .addItem('Nutrimatic Solver', 'doOpenNutrimatic')
       .addToUi();
 }
 
@@ -143,17 +144,24 @@ function doSetupSimpleSubstitutionKey() {
  * Creates the sidebar necessary for querying wordsmith.org/anagram
  */
 function doOpenWordsmithAnagrammer() {
-  var html = HtmlService.createTemplateFromFile('web_query_form')
-      .evaluate()
-      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-      .setTitle('Wordsmith Anagrammer');
+  var template = HtmlService.createTemplateFromFile('web_query_form')
+  template.source = WORDSMITH_SEARCH;
+  var html = template.evaluate().setTitle('Wordsmith Anagrammer');
+  _getSpreadsheetUI().showSidebar(html);
+}
+
+/**
+ * Creates the sidebar necessary for querying wordsmith.org/anagram
+ */
+function doOpenNutrimatic() {
+  var template = HtmlService.createTemplateFromFile('web_query_form')
+  template.source = NUTRIMATIC_SEARCH;
+  var html = template.evaluate().setTitle('Nutrimatic');
   _getSpreadsheetUI().showSidebar(html);
 }
 
 function include(filename) {
-  return HtmlService.createHtmlOutputFromFile(filename)
-      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-      .getContent();
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
 
 /**

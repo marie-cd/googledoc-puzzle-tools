@@ -9,8 +9,8 @@ var ASCII_LOW_MAX = 122;
 /**
  * A function that does a Caesar shift on a string, advancing each character a given amount through the alphabet.
  *
- * @param {String} the string to shift
- * @param {Number} the amount to shift by
+ * @param {string} initialString the string to shift
+ * @param {number} shiftAmount the amount to shift by
  * @return the shifted string
  * @customfunction
  */
@@ -18,7 +18,6 @@ function CAESAR_SHIFT(initialString, shiftAmount) {
   if (initialString == null) {
     return null;
   }
-
   return _forEachCharacterInEachWord(initialString, function(currentValue) {
     var asciiValue = currentValue.charCodeAt(0);
     if (_isInRange(asciiValue, ASCII_CAP_MIN, ASCII_CAP_MAX)) {
