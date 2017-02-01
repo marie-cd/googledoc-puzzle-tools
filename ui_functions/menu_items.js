@@ -1,40 +1,53 @@
-function onOpen() {
-  var ui = _getSpreadsheetUI();
-  // Or DocumentApp or FormApp.
-  ui.createMenu('Puzzle Tools')
-      .addItem('Square Cells', 'squareCells')
-      .addSubMenu(_getSpreadsheetUI().createMenu('Symmetrify Grid')
-                  .addItem('Rotationally', 'doRotationalSymmetrification')
-                  .addItem('Bilaterally', 'doBilateralSymmetrification')
-                 )
-      .addItem('Quick-Add Named Tabs', 'doAddNamedTabs')
-      .addSeparator()
-      .addItem('Wordsmith Anagram Solver', 'doOpenWordsmithAnagrammer')
-      .addItem('Nutrimatic Solver', 'doOpenNutrimatic')
-      .addToUi();
+function onInstall(e) {
+  onOpen(e);
+}
+
+function onOpen(e) {
+  if (e && e.authMode == ScriptApp.AuthMode.NONE) {
+    // If this is an add-on, it may not have been enabled for this sheet yet, so we add
+    // just a single option to the menu, which will enable the add-on and add the rest
+    // of the menu options when selected.
+    _getSpreadsheetUI().createMenu('Puzzle Tools')
+    .addItem('Enable for this sheet', '_updateMenus')
+    .addToUi();
+  } else {
+    _updateMenus();
+  }
+}
+
+/**
+ * Helper function used to add all the menu options for this script.
+ */
+function _updateMenus() {
+  _getSpreadsheetUI().createMenu('Puzzle Tools')
+  .addItem('Square Cells', 'squareCells')
+  .addSubMenu(_getSpreadsheetUI().createMenu('Symmetrify Grid')
+              .addItem('Rotationally', 'doRotationalSymmetrification')
+              .addItem('Bilaterally', 'doBilateralSymmetrification'))
+  .addItem('Quick-Add Named Tabs', 'doAddNamedTabs')
+  .addSeparator()
+  .addItem('Wordsmith Anagram Solver', 'doOpenWordsmithAnagrammer')
+  .addItem('Nutrimatic Solver', 'doOpenNutrimatic')
+  .addToUi();
 }
 
 /**
  * Ask the user for a set of comma-delimited names and make tabs with the names.
  *
  */
- function doAddNamedTabs() {
-
-   var ui = _getSpreadsheetUI();
-   var result = ui.prompt("Adding Tabs","Enter a comma-delimited list of tab names.", ui.ButtonSet.OK_CANCEL);
-   if (_shouldContinueFromDialog(result)) {
-     var names = result.getResponseText();
-     if (names == null || names == "") {
-       return;
-     }
-
-     var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-     var tabNames = names.split(",");
-     tabNames.forEach( function(tabName) {spreadsheet.insertSheet(tabName.trim());} );
-   }
+function doAddNamedTabs() {
+  var ui = _getSpreadsheetUI();
+  var result = ui.prompt("Adding Tabs","Enter a comma-delimited list of tab names.", ui.ButtonSet.OK_CANCEL);
+  if (_shouldContinueFromDialog(result)) {
+    var names = result.getResponseText();
+    if (names == null || names == "") {
+      return;
+    }
+    var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    var tabNames = names.split(",");
+    tabNames.forEach( function(tabName) {spreadsheet.insertSheet(tabName.trim());} );
+  }
 }
-
-
 
 /**
  * Given a set of cells, ensure that cells are reflected at the 180-degree point.
@@ -76,11 +89,8 @@ function doBilateralSymmetrification() {
  */
 function _doSymmetrification(maxRow, maxColumn, callback) {
   var cells = _getActiveRange();
-
   var topRow = cells.getRow();
   var leftColumn = cells.getColumn();
-
-
   for (var curRelativeRow = 1; curRelativeRow <= maxRow; curRelativeRow++) {
     for (var curRelativeColumn = 1; curRelativeColumn <= maxColumn; curRelativeColumn++) {
       var currentCell = cells.getCell(curRelativeRow, curRelativeColumn);
@@ -90,7 +100,6 @@ function _doSymmetrification(maxRow, maxColumn, callback) {
       if (currentCell.getBackgroundColor() != mirrorCell.getBackgroundColor()) {
         mirrorCell.setBackgroundColor(currentCell.getBackgroundColor());
       }
-
     }
   }
 }
@@ -104,10 +113,8 @@ function squareCells() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet();
   var startingColumn = cells.getColumn();
   var startingRow = cells.getRow();
-
   var dialogResult = _getCellSizeResultFromUser();
   if (_shouldContinueFromDialog(dialogResult)) {
-
      var newCellSize = parseInt(dialogResult.getResponseText());
      // because we need to manipulate the columns within the global context
      // of the sheet, we start at startingColumn and then proceed to
@@ -116,7 +123,6 @@ function squareCells() {
      for (var col = startingColumn; col < startingColumn + cells.getNumColumns(); col++) {
         sheet.setColumnWidth(col, newCellSize);
      }
-
      // see above comment about column counts
      for (var row = startingRow; row < startingRow + cells.getNumRows(); row++) {
        sheet.setRowHeight(row, newCellSize);
@@ -133,11 +139,8 @@ function doSetupSimpleSubstitutionKey() {
   var range = _getActiveRange();
   var startRow = range.getRow();
   var startColumn = range.getColumn();
-
   for (var curRow = startRow; curRow <= startRow + 26; curRow++) {
-
   }
-
 }
 
 /**
