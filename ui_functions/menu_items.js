@@ -5,7 +5,7 @@ function onInstall(e) {
 function onOpen(e) {
   if (e && e.authMode == ScriptApp.AuthMode.NONE) {
     // If this is an add-on, it may not have been enabled for this sheet yet, so we add
-    // just a single option to the menu, which will enable the add-on and add the rest
+    // just a single option to the menu, which will kickstart the add-on and add the rest
     // of the menu options when selected.
     _getSpreadsheetUI().createMenu('Puzzle Tools')
     .addItem('Enable for this sheet', '_updateMenus')
