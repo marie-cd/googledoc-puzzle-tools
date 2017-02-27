@@ -1,9 +1,11 @@
+/** @OnlyCurrentDoc */
+
 function onInstall(e) {
   onOpen(e);
 }
 
 function onOpen(e) {
-  if (e && e.authMode == ScriptApp.AuthMode.NONE) {
+  if (e && e.authMode == "NONE") {
     // If this is an add-on, it may not have been enabled for this sheet yet, so we add
     // just a single option to the menu, which will kickstart the add-on and add the rest
     // of the menu options when selected.
@@ -33,7 +35,6 @@ function _updateMenus() {
 
 /**
  * Ask the user for a set of comma-delimited names and make tabs with the names.
- *
  */
 function doAddNamedTabs() {
   var ui = _getSpreadsheetUI();
@@ -96,7 +97,7 @@ function _doSymmetrification(maxRow, maxColumn, callback) {
       var currentCell = cells.getCell(curRelativeRow, curRelativeColumn);
 
       var mirrorCell = callback(curRelativeRow, curRelativeColumn, cells);
-      // this gives a substantial (4x in quick tests) speedup, since setting the background color triggers a refresh
+      // this gives a substantial (4x in quick tests) speedup, since setting the background color causes a refresh
       if (currentCell.getBackgroundColor() != mirrorCell.getBackgroundColor()) {
         mirrorCell.setBackgroundColor(currentCell.getBackgroundColor());
       }
@@ -203,9 +204,9 @@ function _didPressCancel(dialogResult) {
  * @param {Object} a dialog result
  * @return true if the entered text is empty.
  */
-  function _isDialogPromptTextEmpty(dialogResult) {
-    return dialogResult.getResponseText() == null || dialogResult.getResponseText() == "";
-  }
+function _isDialogPromptTextEmpty(dialogResult) {
+  return dialogResult.getResponseText() == null || dialogResult.getResponseText() == "";
+}
 
 /**
  * Determine if the dialog result suggests that the user should continue.
@@ -215,6 +216,7 @@ function _didPressCancel(dialogResult) {
 function _shouldContinueFromDialog(dialogResult) {
   return !(_didPressCancel(dialogResult) || _isDialogPromptTextEmpty(dialogResult));
 }
+
 /**
  * Refactored logic for getting the spreadsheet UI.
  * @return SpreadsheetApp UI object
