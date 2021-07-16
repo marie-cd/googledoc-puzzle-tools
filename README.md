@@ -1,7 +1,7 @@
 # googledoc-puzzle-tools
 Tools for easier group solving of Shinteki/Puzzle Hunt-type puzzles via Googledocs.
 
-***This is now available as a [Google Sheets Add-On](https://chrome.google.com/webstore/detail/puzzle-tools/odpkaajlinkcdiipcenajekpphefofja)!***
+***This is now available as a [Google Sheets Add-On](https://workspace.google.com/marketplace/app/puzzle_tools/790446284580)!***
 
 # Useful existing functions
 (REFS [Google's docs](https://support.google.com/docs/table/25273?hl=en))
